@@ -1,10 +1,13 @@
 import os
+
+import pytest
 from dotenv import load_dotenv
 from pages.login_page import LoginPage
 
 load_dotenv()
 
 
+@pytest.mark.tc_id("TC_UI_001")
 def test_login(driver):
     url = os.getenv("JENKINS_URL")
     username = os.getenv("JENKINS_USERNAME")
