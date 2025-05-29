@@ -13,3 +13,4 @@ class LoginPage:
         self.driver.find_element(By.NAME, "j_username").send_keys(username)
         self.driver.find_element(By.NAME, "j_password").send_keys(password)
         self.driver.find_element(By.NAME, "Submit").click()
+
