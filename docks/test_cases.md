@@ -7,9 +7,8 @@
 1. Enter valid username  
 2. Enter valid password  
 3. Click the "Login" button  
-**Expected Result:** 
-
-User is redirected to the Jenkins dashboard 
+**Expected Result:**
+  User is redirected to the Jenkins dashboard 
 
 **Automation:** `tests/test_login.py
 
@@ -40,8 +39,9 @@ User is redirected to the Jenkins dashboard
 4. Click OK  
 
 **Expected Result:** 
+   User is redirected to config page; item appears on dashboard
 
-User is redirected to config page; item appears on dashboard
+
 **Automation:**  test_new_item_action.py
 ---
 
@@ -55,9 +55,9 @@ User is redirected to config page; item appears on dashboard
 3. Select any item type
 4. Click OK
 
-5. **Expected Result:** 
+5. **Expected Result:**
+   Item is created successfully; Configuration page is opened
 
-Item is created successfully; Configuration page is opened
 **Automation:**  test_new_item_name.py
 ---
 **Test Case ID:** TC_02.001_03
