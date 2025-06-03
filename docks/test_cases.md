@@ -24,8 +24,8 @@ User is redirected to the Jenkins dashboard
 2. Click on “New Item”  
 
 **Expected Result:** 
+   New Item page is opened with input field and list of item types
 
-New Item page is opened with input field and list of item types
 **Automation:**  test_new_item_page.py
 ---
 
