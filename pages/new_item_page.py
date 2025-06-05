@@ -1,6 +1,6 @@
-from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from locators.locators import NewItemPageLocators
 
 
 class NewItemPage:
@@ -9,22 +9,20 @@ class NewItemPage:
         self.wait = WebDriverWait(driver, 10)
 
     def open(self):
-        self.driver.find_element(By.LINK_TEXT, "New Item").click()
+        self.driver.find_element(*NewItemPageLocators.NEW_ITEM_LINK).click()
 
     def enter_name(self, name):
         name_field = self.wait.until(
-            EC.presence_of_element_located((By.ID, "name"))
+            EC.presence_of_element_located(NewItemPageLocators.ITEM_NAME_FIELD)
         )
         name_field.clear()
         name_field.send_keys(name)
 
     def select_freestyle_project(self):
-        self.driver.find_element(
-            By.XPATH, "//li[@class='hudson_model_FreeStyleProject']"
-        ).click()
+        self.driver.find_element(*NewItemPageLocators.FREESTYLE_PROJECT_OPTION).click()
 
     def click_ok(self):
-        self.driver.find_element(By.ID, "ok-button").click()
+        self.driver.find_element(*NewItemPageLocators.OK_BUTTON).click()
 
     def is_configure_page_loaded(self):
         try:
@@ -36,9 +34,7 @@ class NewItemPage:
     def is_general_section_visible(self):
         try:
             self.wait.until(
-                EC.presence_of_element_located(
-                    (By.XPATH, "//div[contains(., 'General') or contains(., 'Configure')]")
-                )
+                EC.visibility_of_element_located(NewItemPageLocators.CONFIGURE_HEADER)
             )
             return True
         except:
@@ -46,3 +42,4 @@ class NewItemPage:
 
     def is_enter_item_name_visible(self):
         return "Enter an item name" in self.driver.page_source
+

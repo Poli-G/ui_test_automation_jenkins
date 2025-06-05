@@ -2,6 +2,7 @@ import pytest
 import random
 from pages.new_item_page import NewItemPage
 
+
 @pytest.mark.tc_id("TC_02.001_02")
 def test_create_new_freestyle_project(logged_in_driver):
     driver = logged_in_driver
