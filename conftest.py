@@ -9,6 +9,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
 from webdriver_manager.microsoft import EdgeChromiumDriverManager
 from pages.login_page import LoginPage
+from pages.new_item_page import NewItemPage
 
 # Загрузка .env файла
 load_dotenv()
@@ -51,3 +52,13 @@ def logged_in_driver(driver):
         os.getenv("JENKINS_PASSWORD")
     )
     return driver
+
+
+@pytest.fixture
+def duplicate_item_exists(logged_in_driver):
+    item_page = NewItemPage(logged_in_driver)
+    item_page.open()
+    item_page.enter_name("duplicate_item")
+    item_page.select_freestyle_project()
+    item_page.click_ok()
+    item_page.dashboard()

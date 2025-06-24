@@ -1,6 +1,7 @@
 ### US_01.001 – Login to Jenkins
 
-**Test Case ID:** TC_01.001_01  
+**Test Case ID:** TC_01.001_01
+---
 **Title:** Login with valid credentials  
 **Preconditions:** User is on the Jenkins login page  
 **Test Steps:**
@@ -10,11 +11,12 @@
 **Expected Result:**
   User is redirected to the Jenkins dashboard 
 
-**Automation:** `tests/test_login.py
+****Automation:**** tests/test_login.py 
 
 ### US_02.001 – Create a New Item
-
-**Test Case ID:** TC_02.001_01  
+---
+**Test Case ID:** TC_02.001_01
+---
 **Title:** New Item page is accessible
 
 **Steps:**
@@ -26,9 +28,10 @@
    New Item page is opened with input field and list of item types
 
 **Automation:**  test_new_item_page.py
----
+ 
 
-**Test Case ID:** TC_02.001_02  
+**Test Case ID:** TC_02.001_02 
+---
 **Title:** Enter valid item name and create
 
 **Steps:**
@@ -41,11 +44,11 @@
 **Expected Result:** 
    User is redirected to config page; item appears on dashboard
 
-
 **Automation:**  test_new_item_action.py
----
+ 
 
 **Test Case ID:** TC_02.001_03
+---
 **Title:** Verify accepted characters in item name
 
 **Steps:**
@@ -59,8 +62,9 @@
    Item is created successfully; Configuration page is opened
 
 **Automation:**  test_new_item_name.py
----
+
 **Test Case ID:** TC_02.001_03
+---
 
 **Title:** Verify accepted characters in item name
 
@@ -75,3 +79,54 @@
     **Expected Result:**
     
     Item is created successfully; configuration page is opened
+
+**Automation:**  test_new_item_name.py 
+ 
+**Test Case ID:** TC_02.001_04
+---
+
+**Title:** Special characters are not allowed in item name
+
+**Preconditions:** User is on the New Item page
+
+**Test Steps:**
+
+1. Enter name: `test@job!`
+    
+    **Expected Result:**
+    
+    Error message is shown; OK button is disabled
+
+**Automation:** test_create_item_negative.py
+
+
+**Test Case ID:** TC_02.001_05
+---
+**Title:** OK button disabled when item name is empty
+
+**Preconditions:** User is on the New Item page
+
+**Test Steps:**
+
+1. Leave name field empty
+    
+    **Expected Result:**
+    
+    OK button is disabled
+
+**Automation:** test_disable_ok_button_on_empty_name.py
+
+
+**Test Case ID:** TC_02.001_06
+---
+**Title:** Duplicate item name validation
+
+**Preconditions:** Item `duplicate_item` already exists; user is on the New Item page
+
+**Test Steps:**
+
+1. Enter name: `duplicate_item`
+    
+    **Expected Result:**
+    
+    Red error message: "An item with this name already exists"; OK button is disabled
