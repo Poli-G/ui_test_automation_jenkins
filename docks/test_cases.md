@@ -1,4 +1,4 @@
-### US_01.001 – Login to Jenkins
+_### US_01.001 – Login to Jenkins
 
 **Test Case ID:** TC_01.001_01
 ---
@@ -130,3 +130,75 @@
     **Expected Result:**
     
     Red error message: "An item with this name already exists"; OK button is disabled
+
+**Automation:** test_duplicate_item_name.py
+
+
+**Test Case ID:** TC_02.001_07
+---
+**Title:** Attempt to create item without selecting item type
+
+**Preconditions:** User is on the New Item page
+
+**Test Steps:**
+
+1. Enter valid name
+2. Do not select any item type
+3. Click OK
+    
+    **Expected Result:**
+    
+    OK button is disabled; item is not created
+
+**Automation:** test_create_without_type.py
+
+**Test Case ID:** TC_02.001_08
+---
+**Title:** New item appears on dashboard
+
+**Preconditions:** New item is created successfully
+
+**Test Steps:**
+
+1. Navigate back to Dashboard
+    
+    **Expected Result:**
+    
+    Item is listed on Dashboard
+
+**Automation:** test_item_appears_on_dashboard.py
+
+**Test Case ID:** TC_02.001_09
+---
+**Title:** Copy from non-existent item
+
+**Preconditions:** User is on the New Item page
+
+**Test Steps:**
+
+1. Enter valid name
+2. Enter non-existent item in "Copy from" field
+    
+    **Expected Result:**
+    
+    After clicking OK, you are redirected to a page http://localhost:8080/view/all/createItem;  Error message: "No such job";  New item is NOT created.
+
+**Automation:** test_copy_from_non_existent_item.py
+
+**Test Case ID:** TC_02.001_10
+---
+**Title:** OK button remains disabled until all validation errors are resolved
+
+**Preconditions:** User is on the New Item page
+
+**Test Steps:**
+
+1. Enter invalid name (e.g. `name!`)
+2. Correct the name to a valid one (e.g. `valid_name`)
+3. Select an item type
+    
+    **Expected Result:**
+    
+    OK button becomes enabled only after valid input is entered and item type is selected
+
+**Automation:** test_invalid_item_name.py
