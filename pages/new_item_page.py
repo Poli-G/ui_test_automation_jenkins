@@ -3,6 +3,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from locators.locators import NewItemPageLocators, DashboardPageLocators
 import random
+from pages.dashboard_page import DashboardPage
+from pages.item_configuration_page import ItemConfigurationPage
 
 
 class NewItemPage:
@@ -22,6 +24,7 @@ class NewItemPage:
 
     def dashboard(self):
         self.driver.get("http://localhost:8080")
+        return DashboardPage(self.driver)
 
     def createItempage(self):
         self.driver.get(("http://localhost:8080/view/all/createItem")
@@ -34,6 +37,14 @@ class NewItemPage:
     @staticmethod
     def generate_invalid_item_name():
         return "invalid_name!"
+
+    @staticmethod
+    def generate_empty_item_name():
+        return ""
+
+    @staticmethod
+    def generate_duplicate_item_name():
+        return "duplicate_item"
 
     def clear_name_field(self):
         name_field = self.wait.until(
@@ -57,6 +68,8 @@ class NewItemPage:
             EC.element_to_be_clickable(NewItemPageLocators.OK_BUTTON)
         )
         ok_button.click()
+
+        return ItemConfigurationPage(self.driver)
 
     def is_configure_page_loaded(self):
         try:
@@ -109,6 +122,10 @@ class NewItemPage:
         copy_from_field.clear()
         if name:
             copy_from_field.send_keys(name)
+
+    def copy_from(self, name):
+        self.enter_copy_from_name(name)
+        self.click_ok()
 
     def copy_from_error_is_displayed(self):
         try:

@@ -1,5 +1,4 @@
 import pytest
-import random
 from pages.item_configuration_page import ItemConfigurationPage
 from pages.new_item_page import NewItemPage
 

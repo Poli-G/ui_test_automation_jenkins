@@ -17,12 +17,13 @@ from pages.dashboard_page import DashboardPage
 
 from selenium.webdriver.support import expected_conditions as EC
 
-
 # Загрузка .env файла
 load_dotenv()
 
+
 def pytest_addoption(parser):
     parser.addoption("--browser", action="store", default="chrome", help="Choose browser: chrome, firefox, edge")
+
 
 @pytest.fixture
 def driver(request):
@@ -49,6 +50,7 @@ def driver(request):
     driver.implicitly_wait(10)
     yield driver
     driver.quit()
+
 
 @pytest.fixture
 def logged_in_driver(driver):
@@ -78,6 +80,7 @@ def duplicate_item_exists(logged_in_driver):
     driver.get("http://localhost:8080/")
     DashboardPage(driver).delete_item(duplicate_item_name)
 
+
 @pytest.fixture
 def test_item(logged_in_driver):
     driver = logged_in_driver
@@ -95,6 +98,7 @@ def test_item(logged_in_driver):
     yield item_name
     DashboardPage(driver).delete_item(item_name)
 
+
 @pytest.fixture
 def cleanup_item(logged_in_driver):
     driver = logged_in_driver
@@ -111,3 +115,58 @@ def cleanup_item(logged_in_driver):
         dashboard_page.delete_item(item_name)
 
 
+@pytest.fixture
+def new_item_page_and_name(logged_in_driver, request):
+    driver = logged_in_driver
+    item_page = NewItemPage(driver)
+    item_page.open()
+
+    mode = getattr(request, "param", "valid")  # default = valid
+
+    if mode == "valid":
+        item_name = NewItemPage.generate_test_item_name()
+        item_page.enter_name(item_name)
+        item_page.select_freestyle_project()
+
+        config_page = item_page.click_ok()
+        config_page.click_submit_button()
+
+        yield item_page, item_name
+
+        item_page.dashboard().delete_item_if_exists(item_name)  # if the item is created - delete it
+
+    elif mode == "invalid":
+        item_name = NewItemPage.generate_invalid_item_name()
+        item_page.enter_name(item_name)
+        yield item_page, item_name
+
+    elif mode == "both":
+        valid_name = NewItemPage.generate_test_item_name()
+        invalid_name = NewItemPage.generate_invalid_item_name()
+        yield item_page, valid_name, invalid_name
+
+        item_page.dashboard().delete_item_if_exists(valid_name)  # if the item is created - delete it
+
+    elif mode == "empty":
+        item_name = NewItemPage.generate_empty_item_name()
+        item_page.enter_name(item_name)
+        yield item_page, item_name
+
+    elif mode == "duplicate":
+        item_name = NewItemPage.generate_duplicate_item_name()
+        item_page.enter_name(item_name)
+        item_page.select_freestyle_project()
+
+        config_page = item_page.click_ok()
+        config_page.click_submit_button()
+
+        item_page = NewItemPage(driver)
+        item_page.open()
+        item_page.enter_name(item_name)
+
+        yield item_page, item_name
+
+        item_page.dashboard().delete_item_if_exists(item_name)
+
+    else:
+        raise ValueError(f"Unknown mode for item_name_data: {mode}")

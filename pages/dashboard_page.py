@@ -51,3 +51,7 @@ class DashboardPage:
             print(f"Error deleting item '{item_name}': {e}")
             driver.save_screenshot(f"delete_error_{item_name}.png")
             raise
+
+    def delete_item_if_exists(self,name):
+        if self.is_item_present(name):
+            self.delete_item(name)
